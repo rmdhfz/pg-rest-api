@@ -51,7 +51,7 @@ router.delete('/:id', async (req, res) => {
     const userId = parseInt(req.params.id);
     if (userId) {
         try {
-            db.query('DELETE FROM users WHERE id = $1', [id], (err, res) => {
+            db.query('DELETE FROM users WHERE id = $1', [userId], (err, res) => {
                 if (err) {
                     throw err
                 }
@@ -69,7 +69,7 @@ router.patch('/:id', async (req, res) => {
         try {
             const {name, email, password} = req.body;
             const salt = await bcrypt.genSalt(10), hashPassword = await bcrypt.hash(password, salt);
-            db.query('UPDATE users SET name = $1, email = $2, password = $3 WHERE id = $4', [name, email, hashPassword], (err, res) => {
+            db.query('UPDATE users SET name = $1, email = $2, password = $3 WHERE id = $4', [name, email, hashPassword, id], (err, res) => {
                 if (err) {
                     throw err
                 }
